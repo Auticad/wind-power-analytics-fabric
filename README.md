@@ -199,3 +199,7 @@ wind-power-analytics-fabric/
 ---
 
 *Pietro Cammise · Wind Power Analytics · Microsoft Fabric · 2024–2025*
+
+---
+
+This project is licensed under the [MIT License](LICENSE)
