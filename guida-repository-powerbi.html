@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repository Power BI — Guida Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #ffffff;
+  color: #1a1a1a;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── COPERTINA ────────────────────────────────────── */
+.cover {
+  background: #ffffff;
+  padding: 64px 52px 52px;
+  border-bottom: 3px solid #0ea5e9;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.cover-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #0ea5e9;
+  margin-bottom: 18px;
+}
+.cover h1 {
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 700;
+  color: #0ea5e9;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.cover-sub {
+  font-size: 14.5px;
+  color: #444;
+  max-width: 620px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+.badge-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+  border: 1px solid #b3d9f5;
+  border-radius: 2px;
+  background: #f0f8ff;
+  color: #0369a1;
+}
+
+/* ── LAYOUT ───────────────────────────────────────── */
+.wrapper {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ── TOC ──────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 28px 0;
+  border-right: 1px solid #e2e8f0;
+  background: #fafbfc;
+}
+nav::-webkit-scrollbar { width: 4px; }
+nav::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+.toc-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  padding: 0 20px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 10px;
+}
+nav a {
+  display: block;
+  padding: 6px 20px;
+  font-size: 12.5px;
+  color: #64748b;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .15s ease;
+  line-height: 1.4;
+}
+nav a:hover {
+  color: #0ea5e9;
+  border-left-color: #0ea5e9;
+  background: #f0f8ff;
+}
+
+/* ── MAIN ─────────────────────────────────────────── */
+main {
+  padding: 48px 52px 80px;
+  max-width: 820px;
+}
+
+section { margin-bottom: 52px; }
+
+/* ── TITOLI ───────────────────────────────────────── */
+h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0ea5e9;
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #0ea5e9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h2 .num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0369a1;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 24px 0 10px;
+}
+
+p { color: #1a1a1a; margin-bottom: 12px; font-size: 14.5px; }
+
+/* ── CODE INLINE ──────────────────────────────────── */
+code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  color: #0369a1;
+  background: #f0f8ff;
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+/* ── PRE BLOCCO ───────────────────────────────────── */
+pre {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  background: #fffdf0;
+  border-left: 3px solid #0ea5e9;
+  padding: 16px 20px;
+  border-radius: 0 4px 4px 0;
+  overflow-x: auto;
+  line-height: 1.9;
+  margin: 14px 0;
+  color: #1a1a1a;
+}
+pre .kw   { color: #006db0; font-weight: 700; }
+pre .str  { color: #1a6b2e; }
+pre .num  { color: #b85c00; }
+pre .var  { color: #5b21b6; font-style: italic; }
+pre .cmt  { color: #6a6a6a; font-style: italic; }
+pre .warn { color: #b45309; }
+
+/* ── ALERT ────────────────────────────────────────── */
+.alert {
+  border-left: 3px solid;
+  padding: 12px 16px;
+  border-radius: 0 4px 4px 0;
+  margin: 14px 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.alert.info  { border-color: #0ea5e9; background: #f0f8ff;  color: #0369a1; }
+.alert.warn  { border-color: #0ea5e9; background: #fffbe6;  color: #92400e; }
+.alert.ok    { border-color: #2e7d32; background: #e8f5e9;  color: #1b5e20; }
+.alert strong { font-weight: 700; }
+
+/* ── TABELLA ──────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; margin: 14px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead th {
+  background: #f0f8ff;
+  color: #0ea5e9;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 9px 14px;
+  text-align: left;
+  border-bottom: 2px solid #0ea5e9;
+}
+tbody td {
+  padding: 9px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1a1a1a;
+  vertical-align: top;
+  font-size: 13.5px;
+}
+tbody tr:nth-child(even) td { background: #fafbfc; }
+td code { font-size: 12px; }
+
+/* ── FILE CARD ────────────────────────────────────── */
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+.file-card {
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-top: 2px solid #0ea5e9;
+  border-radius: 0 0 4px 4px;
+  padding: 14px 16px;
+}
+.fc-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  color: #0369a1;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.fc-desc { font-size: 13px; color: #475569; line-height: 1.5; }
+.fc-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid;
+}
+.tag-must { color: #1b5e20; border-color: #2e7d32; background: #e8f5e9; }
+.tag-rec  { color: #0369a1; border-color: #0ea5e9; background: #f0f8ff; }
+.tag-opt  { color: #64748b; border-color: #cbd5e1; background: #f8fafc; }
+
+/* ── PRO/CON ──────────────────────────────────────── */
+.procon { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.procon-box {
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+.procon-box h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.procon-box.pro h4 { color: #2e7d32; }
+.procon-box.con h4 { color: #c62828; }
+.procon-box ul { padding-left: 16px; }
+.procon-box li { font-size: 13px; color: #475569; margin-bottom: 6px; line-height: 1.5; }
+
+/* ── CHECKLIST ────────────────────────────────────── */
+.checklist { list-style: none; margin: 12px 0; }
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13.5px;
+  color: #1a1a1a;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist .icon { color: #0ea5e9; flex-shrink: 0; margin-top: 3px; font-weight: 700; }
+
+/* ── STEP ─────────────────────────────────────────── */
+.step { display: flex; gap: 16px; margin-bottom: 14px; align-items: flex-start; }
+.step-num {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  background: #0ea5e9;
+  color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; font-weight: 700;
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-body { font-size: 14px; color: #1a1a1a; line-height: 1.65; }
+.step-body strong { color: #0369a1; }
+
+/* ── OPINIONE ─────────────────────────────────────── */
+.opinion {
+  background: #f0f8ff;
+  border-left: 3px solid #0ea5e9;
+  border-radius: 0 4px 4px 0;
+  padding: 20px 24px;
+  margin-top: 40px;
+}
+.opinion-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #0ea5e9;
+  margin-bottom: 10px;
+}
+.opinion p { font-size: 14px; color: #1a1a1a; }
+
+/* ── FOOTER ───────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid #e2e8f0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #94a3b8;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ── PRINT ────────────────────────────────────────── */
+@media print {
+  nav { display: none; }
+  .wrapper { display: block; }
+  main { padding: 0 52px 40px; }
+  .cover { padding: 32px 52px; }
+  .procon { grid-template-columns: 1fr 1fr; }
+  .file-grid { grid-template-columns: repeat(3, 1fr); }
+  pre, section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- COPERTINA -->
+<div class="cover">
+  <div class="cover-label">// data &amp; bi analyst · portfolio guide · 2026</div>
+  <h1>Repository Power BI per il Portfolio</h1>
+  <p class="cover-sub">
+    Quali file creare, come strutturarli e perché — guida operativa per dimostrare
+    competenze su Power BI Desktop e Service a recruiter e collaboratori.
+  </p>
+  <div class="badge-row">
+    <span class="badge">Power BI Desktop</span>
+    <span class="badge">Power BI Service</span>
+    <span class="badge">DAX</span>
+    <span class="badge">Power Query / M</span>
+    <span class="badge">Star Schema</span>
+    <span class="badge">GitHub Pages</span>
+  </div>
+</div>
+
+<div class="wrapper">
+
+<!-- TOC -->
+<nav>
+  <div class="toc-title">Indice</div>
+  <a href="#premessa">0. Premessa</a>
+  <a href="#struttura">1. Struttura repo</a>
+  <a href="#file-core">2. File obbligatori</a>
+  <a href="#file-rec">3. File consigliati</a>
+  <a href="#file-opt">4. File opzionali</a>
+  <a href="#dataset">5. Dataset</a>
+  <a href="#readme">6. README efficace</a>
+  <a href="#service">7. Power BI Service</a>
+  <a href="#checklist">8. Checklist</a>
+  <a href="#opinion">9. Opinione critica</a>
+</nav>
+
+<main>
+
+<!-- 0 -->
+<section id="premessa">
+  <h2><span class="num">00</span> Premessa — cosa valuta davvero un recruiter</h2>
+  <p>
+    Un repository Power BI non è una raccolta di file <code>.pbix</code>.
+    È un sistema di comunicazione: deve rispondere a tre domande entro 90 secondi —
+    <em>sai modellare i dati?</em>, <em>sai scrivere DAX corretto?</em>,
+    <em>sai comunicare insight?</em>
+  </p>
+  <div class="alert info">
+    <strong>Nota sul .pbix:</strong> GitHub non esegue file binari Power BI.
+    Il <code>.pbix</code> va sempre accompagnato da screenshot, export PDF e
+    documentazione testuale del modello. Senza questi, il file è opaco
+    a chiunque lo visiti senza aprire Power BI Desktop.
+  </div>
+  <p>
+    Il profilo <strong>Data &amp; BI Analyst</strong> richiede di dimostrare competenze
+    su tre livelli distinti: <em>dati</em> (modello, trasformazioni),
+    <em>analisi</em> (DAX, logica di business) e <em>presentazione</em>
+    (layout, storytelling visivo, pubblicazione su Service).
+  </p>
+</section>
+
+<!-- 1 -->
+<section id="struttura">
+  <h2><span class="num">01</span> Struttura consigliata del repository</h2>
+  <p>
+    Organizza per <strong>progetti autonomi</strong>, non per tipo di file.
+    Ogni cartella-progetto deve essere autosufficiente: dati, report, documentazione.
+  </p>
+<pre>
+<span class="kw">powerbi-portfolio/</span>
+├── <span class="str">README.md</span>                       <span class="cmt">← entry point del repo</span>
+├── <span class="str">.gitignore</span>
+├── assets/screenshots/
+│
+├── <span class="kw">01_sales-analysis/</span>             <span class="cmt">← star schema, KPI, YTD</span>
+│   ├── <span class="str">README.md</span>
+│   ├── <span class="str">sales_analysis.pbix</span>
+│   ├── data/
+│   │   ├── <span class="str">sales_raw.csv</span>
+│   │   └── <span class="str">data_dictionary.md</span>
+│   ├── docs/
+│   │   ├── <span class="str">model_schema.png</span>         <span class="cmt">← schema del modello dati</span>
+│   │   ├── <span class="str">dax_measures.md</span>          <span class="cmt">← misure DAX documentate</span>
+│   │   ├── <span class="warn">report_export.pdf</span>        <span class="cmt">← export visivo del report</span>
+│   │   └── <span class="warn">powerquery_steps.md</span>     <span class="cmt">← trasformazioni M documentate</span>
+│   └── screenshots/
+│       ├── overview_page.png
+│       └── drill_through.png
+│
+├── <span class="kw">02_rls-hr-dashboard/</span>           <span class="cmt">← RLS, Service, deploy pipeline</span>
+│   └── <span class="cmt">... (stessa struttura)</span>
+│
+├── <span class="kw">03_financial-report/</span>           <span class="cmt">← YTD, comparativi, waterfall</span>
+│   └── ...
+│
+└── <span class="kw">templates/</span>
+    ├── <span class="warn">theme_custom.json</span>           <span class="cmt">← tema Power BI personalizzato</span>
+    └── <span class="warn">measure_template.md</span>
+</pre>
+</section>
+
+<!-- 2 -->
+<section id="file-core">
+  <h2><span class="num">02</span> File obbligatori</h2>
+  <p>La loro assenza è un segnale negativo immediato per chiunque visiti il repo.</p>
+
+  <div class="file-grid">
+    <div class="file-card">
+      <div class="fc-name">README.md (root)</div>
+      <div class="fc-desc">Indice dei progetti, stack tecnologico, link ai singoli report. Prima pagina che legge chiunque visiti il repo.</div>
+      <span class="fc-tag tag-must">obbligatorio</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">*.pbix</div>
+      <div class="fc-desc">File Power BI principale. Deve contenere modello pulito, misure documentate, almeno 2–3 pagine report con layout curato.</div>
+      <span class="fc-tag tag-must">obbligatorio</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">model_schema.png</div>
+      <div class="fc-desc">Screenshot della vista modello in Desktop. Dimostra la capacità di progettare star schema o snowflake corretti.</div>
+      <span class="fc-tag tag-must">obbligatorio</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">dax_measures.md</div>
+      <div class="fc-desc">Documentazione di ogni misura DAX: nome, formula, contesto di utilizzo. Dimostra comprensione del filter context.</div>
+      <span class="fc-tag tag-must">obbligatorio</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">README.md (progetto)</div>
+      <div class="fc-desc">Contesto di business, domande analitiche affrontate, fonte dati, screenshot principali, limitazioni note.</div>
+      <span class="fc-tag tag-must">obbligatorio</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">.gitignore</div>
+      <div class="fc-desc">Esclude file di sistema, cache locali, dati sensibili. Segnale di professionalità anche in un portfolio personale.</div>
+      <span class="fc-tag tag-must">obbligatorio</span>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="file-rec">
+  <h2><span class="num">03</span> File consigliati — differenziano il profilo</h2>
+
+  <div class="file-grid">
+    <div class="file-card">
+      <div class="fc-name">report_export.pdf</div>
+      <div class="fc-desc">Export PDF del report (File → Export → PDF in Desktop). Permette di vedere il risultato finale senza aprire Power BI.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">powerquery_steps.md</div>
+      <div class="fc-desc">Trasformazioni in Power Query: join, pivot, colonne calcolate, gestione errori, tipi di dato applicati.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">data_dictionary.md</div>
+      <div class="fc-desc">Glossario delle colonne: nome, tipo, descrizione, valori ammessi. Dimostra attenzione alla governance dei dati.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">theme_custom.json</div>
+      <div class="fc-desc">Tema Power BI personalizzato. Dimostra cura del dettaglio visivo e capacità di branding coerente dei report.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">screenshots/ (multiple)</div>
+      <div class="fc-desc">Almeno 3–4 screenshot per progetto: overview, drill-through, tooltip personalizzato, mobile layout se presente.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">insights.md</div>
+      <div class="fc-desc">3–5 insight principali emersi dall'analisi in forma narrativa. Dimostra pensiero analitico, non solo capacità tecnica.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="file-opt">
+  <h2><span class="num">04</span> File opzionali — per profili avanzati</h2>
+
+  <div class="file-grid">
+    <div class="file-card">
+      <div class="fc-name">rls_configuration.md</div>
+      <div class="fc-desc">Row-Level Security: ruoli definiti, filtri DAX applicati, test di verifica eseguiti con View as role.</div>
+      <span class="fc-tag tag-opt">opzionale</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">deployment_pipeline.md</div>
+      <div class="fc-desc">Deployment Pipeline su Service: ambienti Dev/Test/Prod, flusso di rilascio, gestione delle versioni.</div>
+      <span class="fc-tag tag-opt">opzionale</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">embedded_demo/index.html</div>
+      <div class="fc-desc">GitHub Pages con embed del report pubblico via iframe Power BI. Report interattivo nel browser, senza installazioni.</div>
+      <span class="fc-tag tag-opt">opzionale — alto impatto</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">performance_notes.md</div>
+      <div class="fc-desc">Ottimizzazione del modello: cardinalità, DirectQuery vs Import, misure vs colonne calcolate, VertiPaq analyzer.</div>
+      <span class="fc-tag tag-opt">opzionale</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">*.pbit (template)</div>
+      <div class="fc-desc">Template Power BI senza dati: struttura riutilizzabile con parametri. Dimostra maturità progettuale.</div>
+      <span class="fc-tag tag-opt">opzionale</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">measure_groups.md</div>
+      <div class="fc-desc">Organizzazione delle misure DAX per gruppi logici (vendite, margini, tempo, HR). Riflette best practice di governance.</div>
+      <span class="fc-tag tag-opt">opzionale</span>
+    </div>
+  </div>
+
+  <div class="alert ok">
+    <strong>Tip ad alto impatto:</strong> un singolo progetto con embed live su GitHub Pages vale strutturalmente
+    più di cinque <code>.pbix</code> statici. Usa un dataset pubblico (AdventureWorks, Northwind) e
+    condividilo come <em>Public report</em> su Service per ottenere l'URL embed.
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="dataset">
+  <h2><span class="num">05</span> Dataset di esempio — quali usare e perché</h2>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Dataset</th>
+          <th>Competenze dimostrate</th>
+          <th>Fonte</th>
+          <th>Livello</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>AdventureWorks</code></td>
+          <td>Star schema reale, misure YTD, comparativi annuali, RLS per area vendita</td>
+          <td>Microsoft / GitHub</td>
+          <td>Intermedio–Avanzato</td>
+        </tr>
+        <tr>
+          <td><code>Contoso</code></td>
+          <td>Modello large-scale, simulazione DirectQuery, KPI retail su più mercati</td>
+          <td>Microsoft</td>
+          <td>Avanzato</td>
+        </tr>
+        <tr>
+          <td><code>Northwind</code></td>
+          <td>Analisi ordini/prodotti, relazioni molti-a-molti, waterfall chart</td>
+          <td>Microsoft / GitHub</td>
+          <td>Base–Intermedio</td>
+        </tr>
+        <tr>
+          <td>Dataset Kaggle custom</td>
+          <td>Dimostra autonomia nella scelta e preparazione dei dati grezzi</td>
+          <td>kaggle.com</td>
+          <td>Variabile</td>
+        </tr>
+        <tr>
+          <td>ISTAT / Eurostat</td>
+          <td>Contesto italiano/europeo, storytelling su dati reali e verificabili</td>
+          <td>istat.it · ec.europa.eu</td>
+          <td>Intermedio</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert warn">
+    <strong>Attenzione:</strong> evita dataset generici come <em>iris</em> o <em>titanic</em> per Power BI.
+    I recruiter BI cercano modelli con almeno 3–4 tabelle, relazioni non banali e metriche
+    riconoscibili (vendite, margini, KPI HR). Un'analisi del Titanic in Power BI
+    non dimostra competenze di business intelligence applicata.
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="readme">
+  <h2><span class="num">06</span> README efficace — struttura minima per progetto</h2>
+  <p>Ogni cartella-progetto deve avere un README che risponde a queste domande nell'ordine:</p>
+
+<pre>
+<span class="kw"># Nome progetto — Sottotitolo descrittivo</span>
+
+<span class="str">## Contesto di business</span>
+<span class="cmt">2–3 righe: chi sono i destinatari, quale problema risolve il report.</span>
+
+<span class="str">## Domande analitiche</span>
+<span class="cmt">Bullet: 3–5 domande concrete cui il report risponde.</span>
+
+<span class="str">## Modello dati</span>
+<span class="cmt">![Schema modello](docs/model_schema.png)</span>
+<span class="cmt">Tabelle, relazioni, cardinalità, tipo (star / snowflake).</span>
+
+<span class="str">## Misure DAX principali</span>
+<span class="cmt">Tabella: nome | formula breve | scopo</span>
+
+<span class="str">## Screenshot</span>
+<span class="cmt">![Overview](screenshots/overview_page.png)</span>
+
+<span class="str">## Stack</span>
+<span class="cmt">Power BI Desktop 2.x, dataset fonte, Power Query M.</span>
+
+<span class="warn">## Link report live</span>    <span class="cmt">← se disponibile su Service</span>
+<span class="warn">## Note e limitazioni</span>
+</pre>
+
+  <div class="procon">
+    <div class="procon-box pro">
+      <h4>✔ Cosa include un buon README</h4>
+      <ul>
+        <li>Business context esplicito</li>
+        <li>Screenshot inline visibili su GitHub</li>
+        <li>Tabella misure DAX leggibile</li>
+        <li>Limitazioni dichiarate onestamente</li>
+        <li>Link al report live o al PDF export</li>
+      </ul>
+    </div>
+    <div class="procon-box con">
+      <h4>✘ Errori comuni</h4>
+      <ul>
+        <li>README vuoto o con solo il titolo</li>
+        <li>Nessuno screenshot (il .pbix è opaco)</li>
+        <li>DAX non documentato</li>
+        <li>Dataset non incluso né linkato</li>
+        <li>Nessun contesto di business</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="service">
+  <h2><span class="num">07</span> Power BI Service — come documentarlo su GitHub</h2>
+  <p>
+    Power BI Service non è un file, ma puoi dimostrarne l'uso in modo convincente.
+    Tre opzioni pratiche, dalla più semplice alla più efficace.
+  </p>
+
+  <div class="step">
+    <div class="step-num">A</div>
+    <div class="step-body">
+      <strong>Link al report pubblico.</strong> Pubblica il report su un workspace personale con dataset pubblico,
+      imposta <em>Share → Anyone with the link</em> e inserisci il link nel README.
+      Richiede licenza Pro o tenant Developer (gratuito per sviluppatori Microsoft).
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">B</div>
+    <div class="step-body">
+      <strong>Screenshot del Service.</strong> Screenshot di: workspace organizzato, scheduled refresh configurato,
+      dashboard costruita con pin da report, RLS verificata con <em>View as role</em>.
+      Inseriscili in <code>docs/service_screenshots/</code> con un <code>service_setup.md</code>.
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">C</div>
+    <div class="step-body">
+      <strong>Embed su GitHub Pages.</strong> Crea <code>embedded_demo/index.html</code> con l'iframe embed
+      di Power BI Service. Attiva GitHub Pages: il report diventa visitabile da browser
+      senza Power BI installato. Massima visibilità, zero attrito per il visitatore.
+    </div>
+  </div>
+
+<pre>
+<span class="cmt">/* Esempio iframe embed — File → Embed report → Website or portal */</span>
+
+&lt;iframe
+  width="100%"
+  height="600"
+  src="https://app.powerbi.com/view?r=<span class="str">TOKEN_PUBBLICO</span>"
+  frameborder="0"
+  allowFullScreen="true"
+&gt;&lt;/iframe&gt;
+</pre>
+
+  <div class="alert info">
+    <strong>Cosa dimostra:</strong> pubblicare su Service — workspace, dataset refresh, condivisione —
+    è una competenza operativa distinta da Desktop. Documentarla anche solo con screenshot
+    vale molto in un colloquio tecnico su profili BI aziendali.
+  </div>
+
+  <h3>File da includere per documentare Service</h3>
+  <div class="file-grid">
+    <div class="file-card">
+      <div class="fc-name">service_setup.md</div>
+      <div class="fc-desc">Workspace, dataset pubblicato, scheduled refresh configurato, eventuali gateway.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">dashboard_screenshot.png</div>
+      <div class="fc-desc">Screenshot della dashboard costruita su Service con pin da report multipli e tile configurati.</div>
+      <span class="fc-tag tag-rec">consigliato</span>
+    </div>
+    <div class="file-card">
+      <div class="fc-name">rls_roles.md</div>
+      <div class="fc-desc">Ruoli definiti in Desktop, utenti assegnati su Service, test di verifica eseguiti.</div>
+      <span class="fc-tag tag-opt">opzionale</span>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="checklist">
+  <h2><span class="num">08</span> Checklist finale prima di pubblicare</h2>
+
+  <h3>Struttura e contenuto</h3>
+  <ul class="checklist">
+    <li><span class="icon">▸</span> README root con indice progetti e stack tecnologico</li>
+    <li><span class="icon">▸</span> Almeno 2 progetti completi con struttura standardizzata</li>
+    <li><span class="icon">▸</span> Ogni progetto ha: .pbix, README, schema modello, misure DAX documentate</li>
+    <li><span class="icon">▸</span> Dataset inclusi nel repo o linkati con fonte attendibile</li>
+    <li><span class="icon">▸</span> Screenshot inline visibili su GitHub (non solo link)</li>
+    <li><span class="icon">▸</span> Export PDF di almeno un report</li>
+  </ul>
+
+  <h3>Qualità tecnica dimostrabile</h3>
+  <ul class="checklist">
+    <li><span class="icon">▸</span> Star schema corretto con chiavi surrogate o naturali documentate</li>
+    <li><span class="icon">▸</span> Misure DAX con almeno: YTD, comparativo anno precedente, % su totale</li>
+    <li><span class="icon">▸</span> Power Query: almeno un merge, una trasformazione non banale documentata</li>
+    <li><span class="icon">▸</span> RLS configurata e documentata in almeno un progetto</li>
+    <li><span class="icon">▸</span> Tema personalizzato applicato (.json nel repo)</li>
+  </ul>
+
+  <h3>Power BI Service</h3>
+  <ul class="checklist">
+    <li><span class="icon">▸</span> Almeno un report pubblicato su workspace (anche Developer license)</li>
+    <li><span class="icon">▸</span> Screenshot del workspace e del refresh schedulato</li>
+    <li><span class="icon">▸</span> Link diretto o embed live nel README</li>
+  </ul>
+
+  <h3>Hygiene del repository</h3>
+  <ul class="checklist">
+    <li><span class="icon">▸</span> .gitignore configurato (esclude .DS_Store, Thumbs.db, cache locali)</li>
+    <li><span class="icon">▸</span> Nessun dato sensibile o credenziale committata</li>
+    <li><span class="icon">▸</span> Nomi file coerenti e leggibili (snake_case, nessun "report1.pbix")</li>
+    <li><span class="icon">▸</span> Commit history con messaggi descrittivi</li>
+  </ul>
+</section>
+
+<!-- OPINIONE -->
+<div class="opinion" id="opinion">
+  <div class="opinion-label">// opinione critica — basata su evidenza</div>
+  <p>
+    Il problema più comune nei portfolio Power BI è la confusione tra
+    <em>avere i file</em> e <em>dimostrare competenza</em>.
+    Un <code>.pbix</code> non documentato è un binario opaco: GitHub non lo renderizza,
+    il recruiter non lo apre, il dato non parla da solo.
+  </p>
+  <p style="margin-top:10px;">
+    Il vero differenziale, nel 2025–2026, non è la quantità di report ma la capacità
+    di costruire un modello dati corretto, documentare le scelte DAX e rendere visibile
+    il risultato senza richiedere software installato. Un singolo progetto con schema
+    visibile, misure documentate e report live su Service vale strutturalmente
+    più di dieci <code>.pbix</code> senza contesto.
+  </p>
+  <p style="margin-top:10px;">
+    Per il profilo Data &amp; BI Analyst il punto di partenza concreto è:
+    due progetti completi su AdventureWorks e un dataset a scelta, più una pagina
+    GitHub Pages con embed. Tre settimane di lavoro organizzato producono
+    un portfolio superiore alla media del mercato italiano su questa figura professionale.
+  </p>
+</div>
+
+</main>
+</div>
+
+<footer>
+  Pietro · Data &amp; BI Analyst Portfolio Guide · Power BI Desktop + Service · 2026
+</footer>
+
+</body>
+</html>

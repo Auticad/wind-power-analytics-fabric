@@ -1,0 +1,55 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Editor e IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook — checkpoint locali
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Power BI — file temporanei e di blocco
+~$*.pbix
+*.pbix.lock
+
+# Microsoft Fabric / Azure — credenziali e config locali
+*.env
+local.settings.json
+appsettings.local.json
+.azureauth
+*.pfx
+*.pem
+
+# OneLake / Delta Lake — cache locali (non committare)
+_delta_log/
+*.crc
+*.snappy.parquet
+*.parquet
+spark-warehouse/
+
+# File di log
+*.log
+logs/
+
+# File temporanei generici
+*.tmp
+*.bak
+*.swp

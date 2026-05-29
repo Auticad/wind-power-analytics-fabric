@@ -1,0 +1,1 @@
+https://app.fabric.microsoft.com/Redirect?action=OpenApp&appId=4534cddd-d969-4f9a-917d-e841809160de&ctid=9708968b-0c32-4669-8c58-045c91ee99dd&experience=power-bi
