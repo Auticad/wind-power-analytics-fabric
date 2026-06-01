@@ -1,0 +1,80 @@
+table dim_turbine
+	lineageTag: e2a93893-a810-4da4-9d81-a67f90ef1292
+	sourceLineageTag: [dbo].[dim_turbine]
+
+	column turbine_name
+		dataType: string
+		lineageTag: 6eb2ec74-5091-44d5-b03b-1e8abc6965b7
+		sourceLineageTag: turbine_name
+		summarizeBy: none
+		sourceColumn: turbine_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column capacity
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f08b2be-5d71-4930-9cae-dd70dc63e4d3
+		sourceLineageTag: capacity
+		summarizeBy: none
+		sourceColumn: capacity
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_name
+		dataType: string
+		lineageTag: d71fe2f1-87d6-4fed-b601-718da6e83e93
+		sourceLineageTag: location_name
+		summarizeBy: none
+		sourceColumn: location_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 220785d7-eb97-44ae-8676-aab5ec087eae
+		sourceLineageTag: latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 772ccff0-d7be-43ca-90ae-96d63e13cbff
+		sourceLineageTag: longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column region
+		dataType: string
+		lineageTag: d9f44457-12a0-4a14-b84c-99fc85c2357f
+		sourceLineageTag: region
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column turbine_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bc000440-d941-43f0-bbc3-a77d7cb49a81
+		sourceLineageTag: turbine_id
+		summarizeBy: none
+		sourceColumn: turbine_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_turbine = entity
+		mode: directLake
+		source
+			entityName: dim_turbine
+			schemaName: dbo
+			expressionSource: 'DirectLake - LH_Wind_Power_Gold'
+
